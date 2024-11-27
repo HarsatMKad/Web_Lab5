@@ -1,0 +1,25 @@
+@use "base" as base
+
+.share_box
+  width: 100%
+  margin: 0px 32px 0px 32px
+  background-color: base.$main_background_color
+  display: flex
+  flex-direction: row
+  justify-content: space-between
+  padding: 14px 20px
+
+.share_box_button
+  width: 50px
+  height: 50px
+  display: flex
+  margin: 32px
+  transform: scale(2)
+  align-items: center
+  justify-content: center
+  border: none
+  background: none
+  background-image: url("../images/share_button_background.svg")
+  background-size: cover
+  &:hover
+    background-image: url("../images/share_button_background_hover.svg")

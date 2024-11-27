@@ -1,0 +1,36 @@
+@use "base" as base
+
+.edit_box
+    width: 100%
+    height: 50%
+    display: flex
+    flex-direction: column
+    align-items: center
+    margin: 32px
+    background: base.$main_background_color
+
+.head_input
+    height: 64px
+    width: 95%
+    margin: 32px
+    padding: 16px
+    font-size: 32px
+
+.body_input
+    display: flex
+    height: 100%
+    width: 95%
+    padding: 16px
+    font-size: 32px
+    margin: 0px 32px 64px 32px
+
+.edit_button
+    @extend .text_stile
+    width: 128px
+    font-size: 16px
+    margin-bottom: 32px
+    height: 64px
+    margin: 0 20px 0 20px
+    border-radius: 16px
+    &:hover
+        border-color: $mark_color_hover

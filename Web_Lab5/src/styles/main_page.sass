@@ -1,0 +1,48 @@
+@use "base" as base
+
+.create_task_form
+    height: 150px
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    padding: 32px
+
+.tasks_inputs   
+    width: 100%
+    display: flex
+    flex-direction: column
+    margin-right: 32px
+
+.create_tasks_input
+    padding-left: 16px
+    font-size: 26px
+    height: 50%
+    
+#title_tasks_input
+    margin-bottom: 16px
+
+.add_button
+  min-width: 160px
+  height: 100%
+  background-color: base.$main_background_color
+  color: base.$mark_color
+  font-size: 120px
+  border: 4px solid
+  border-radius: 20px
+  &:hover
+    background-color: base.$light_background_color
+
+.zero_task_message
+    padding-top: 200px
+
+    display: flex
+    flex-direction: column
+    align-items: center
+
+.separate_line
+    width: 144px
+    border: 3px solid base.$mark_color
+
+.zero_task_message_text
+    @extend .text_stile
+    font-size: 64px
