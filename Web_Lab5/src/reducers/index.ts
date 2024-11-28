@@ -1,14 +1,15 @@
-import { combineReducers } from "redux";
+import { combineReducers, AnyAction } from "redux";
 import {
   addTask,
   editTask,
   delTask,
   moveTask,
 } from "../scripts/TaskStorageController";
+import { Task } from "../types/Task";
 
-const initialState = [];
+const initialState: Task[] = [];
 
-const tasksReducer = (state = initialState, action) => {
+const tasksReducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case "ADD_TASK": {
       const newTask = {
