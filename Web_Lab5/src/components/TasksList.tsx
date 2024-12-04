@@ -1,7 +1,7 @@
 import TaskUnit from "./TaskUnit";
 import ZeroTaskMessage from "./ZeroTaskMessage";
 import { useSelector, useDispatch } from "react-redux";
-import { moveTask } from "../actions/tasksActions";
+import { moveTask } from "../store/tasksActions";
 import { IRootState } from "../types/IRootState";
 import { Task } from "../types/Task";
 

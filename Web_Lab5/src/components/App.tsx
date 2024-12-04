@@ -1,7 +1,7 @@
 import TaskCreateSection from "./TaskCreateSection";
 import TaskList from "./TasksList";
 import { useState } from "react";
-import store from "../scripts/Store";
+import store from "../store/Store";
 import { Provider } from "react-redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";

@@ -4,17 +4,33 @@ import {
   editTask,
   delTask,
   moveTask,
-} from "../scripts/TaskStorageController";
+  getTaskList,
+  toggleTask,
+} from "../utils/TaskStorageController";
 import { Task } from "../types/Task";
 
 const initialState: Task[] = [];
 
 const tasksReducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
+    case "GET_TASKS": {
+      const taskList = getTaskList();
+      const sortedTasks = taskList.sort((a: Task, b: Task) => {
+        if (a.pinned && !b.pinned) return -1;
+        if (!a.pinned && b.pinned) return 1;
+        return 0;
+      });
+      return sortedTasks;
+    }
+    case "TOGGLE_PINNED": {
+      toggleTask(action.payload.index);
+      return state;
+    }
     case "ADD_TASK": {
       const newTask = {
         title: action.payload.title,
         bodyTask: action.payload.body,
+        pinned: false,
       };
       const updatedState = [...state, newTask];
       addTask(newTask);
@@ -26,6 +42,7 @@ const tasksReducer = (state = initialState, action: AnyAction) => {
           return {
             title: action.payload.newTitle,
             bodyTask: action.payload.newBody,
+            pinned: task.pinned,
           };
         }
         return task;
@@ -48,10 +65,11 @@ const tasksReducer = (state = initialState, action: AnyAction) => {
       let newState = [...state];
       newState.splice(oldIndex, 1);
       newState.splice(newIndex, 0, movedTask);
-
       moveTask(oldIndex, newIndex);
-
       return newState;
+    }
+    case "GET_PINNED_LENGTH": {
+      return state.filter((task) => task.pinned).length;
     }
     default:
       return state;
