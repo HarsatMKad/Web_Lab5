@@ -18,6 +18,8 @@ export default function TaskCreateSection() {
 
     if (title !== "" && body !== "") {
       dispatch(addTask(title, body));
+      inputTitleRef.current!.value = "";
+      inputBodyRef.current!.value = "";
     }
   }
 

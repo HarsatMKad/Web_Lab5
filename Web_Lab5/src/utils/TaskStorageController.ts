@@ -37,7 +37,7 @@ export function getTaskList() {
 
 export function toggleTask(index: number) {
   const taskList = getTaskList();
-  if (getPinnedTaskCount() == 3 && !taskList[index].pinned) {
+  if (getPinnedTaskCount() >= 3 && !taskList[index].pinned) {
     return;
   }
   taskList[index].pinned = !taskList[index].pinned;

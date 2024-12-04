@@ -30,7 +30,7 @@ const tasksReducer = (state = initialState, action: AnyAction) => {
       const newTask = {
         title: action.payload.title,
         bodyTask: action.payload.body,
-        pinned: true,
+        pinned: false,
       };
       const updatedState = [...state, newTask];
       addTask(newTask);
@@ -42,6 +42,7 @@ const tasksReducer = (state = initialState, action: AnyAction) => {
           return {
             title: action.payload.newTitle,
             bodyTask: action.payload.newBody,
+            pinned: task.pinned,
           };
         }
         return task;
@@ -66,6 +67,9 @@ const tasksReducer = (state = initialState, action: AnyAction) => {
       newState.splice(newIndex, 0, movedTask);
       moveTask(oldIndex, newIndex);
       return newState;
+    }
+    case "GET_PINNED_LENGTH": {
+      return state.filter((task) => task.pinned).length;
     }
     default:
       return state;

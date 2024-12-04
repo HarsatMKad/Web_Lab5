@@ -1,5 +1,13 @@
-import { ADD_TASK, EDIT_TASK, DELETE_TASK, MOVE_TASK, TOGGLE_PINNED, GET_TASKS } from "./types";
+import {
+  ADD_TASK,
+  EDIT_TASK,
+  DELETE_TASK,
+  MOVE_TASK,
+  TOGGLE_PINNED,
+  GET_TASKS,
+} from "./types";
 import { Task } from "../types/Task";
+import { IRootState } from "../types/IRootState";
 
 export const addTask = (title: string, body: string) => ({
   type: ADD_TASK,
@@ -30,3 +38,7 @@ export const getTasks = (tasks: Task[]) => ({
   type: GET_TASKS,
   payload: tasks,
 });
+
+export const getTaskPinnedLength = (state: IRootState) => {
+  return state.tasks.filter((task: Task) => task.pinned).length;
+};

@@ -4,9 +4,10 @@ import DelTaskAlert from "./DelTaskAlert";
 import { useDrag, useDrop } from "react-dnd";
 import { ItemTypes } from "../utils/ItemTypes";
 import { Task } from "../types/Task";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { togglePinned } from "../store/tasksActions";
-import { getPinnedTaskCount } from "../utils/TaskStorageController";
+import { IRootState } from "../types/IRootState";
+import { getTaskPinnedLength } from "../store/tasksActions";
 
 type Props = {
   index: number;
@@ -18,10 +19,12 @@ type Props = {
 export default function TaskUnit(props: Props) {
   const dispatch = useDispatch();
   const [buttonsVisible, setButtonsVisible] = useState<Boolean>(false);
-  const [pinned, setPinned] = useState<Boolean>(props.task.pinned);
+  const [pinned, setPinned] = useState<boolean>(props.task.pinned);
   const ref = useRef<HTMLDivElement>(null);
 
-  const lastPinnedIndex = getPinnedTaskCount() - 1;
+  const lastPinnedIndex = useSelector((state: IRootState) =>
+    getTaskPinnedLength(state)
+  );
 
   const [{ isDragging }, drag] = useDrag(
     () => ({
@@ -32,7 +35,7 @@ export default function TaskUnit(props: Props) {
         isDragging: monitor.isDragging(),
       }),
     }),
-    [props.index]
+    [props.index, pinned]
   );
 
   const [, drop] = useDrop(
@@ -49,7 +52,7 @@ export default function TaskUnit(props: Props) {
           return;
         }
 
-        if (hoverIndex <= lastPinnedIndex) {
+        if (hoverIndex < lastPinnedIndex) {
           return;
         }
 
@@ -83,11 +86,12 @@ export default function TaskUnit(props: Props) {
   };
 
   function switchPinned() {
-    if (lastPinnedIndex >= 2 && !pinned) {
+    if (lastPinnedIndex >= 3 && !pinned) {
       alert("Maximum pinned tasks!");
     } else {
       dispatch(togglePinned(props.index));
       setPinned(!pinned);
+      location.reload();
     }
   }
 
