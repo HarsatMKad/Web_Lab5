@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editTask } from "../actions/tasksActions";
+import { editTask } from "../store/tasksActions";
 import { IRootState } from "../types/IRootState";
 
 type Props = { showAlert: (alert: JSX.Element) => void; index: number };
@@ -21,8 +21,8 @@ function EditTaskMenu(props: Props) {
   }
 
   function handleEditTask() {
-    const title = inputTitleRef.current?.value.trim();
-    const body = inputBodyRef.current?.value.trim();
+    const title = inputTitleRef.current!.value.trim();
+    const body = inputBodyRef.current!.value.trim();
 
     if (title !== "" && body !== "") {
       dispatch(editTask(props.index, title, body));

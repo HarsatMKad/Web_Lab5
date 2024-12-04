@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { deleteTask } from "../actions/tasksActions";
+import { deleteTask } from "../store/tasksActions";
 
 type Props = { showAlert: (alert: JSX.Element) => void; index: number };
 

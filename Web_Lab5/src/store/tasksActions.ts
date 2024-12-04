@@ -1,4 +1,5 @@
-import { ADD_TASK, EDIT_TASK, DELETE_TASK, MOVE_TASK } from "./types";
+import { ADD_TASK, EDIT_TASK, DELETE_TASK, MOVE_TASK, TOGGLE_PINNED, GET_TASKS } from "./types";
+import { Task } from "../types/Task";
 
 export const addTask = (title: string, body: string) => ({
   type: ADD_TASK,
@@ -18,4 +19,14 @@ export const deleteTask = (index: number) => ({
 export const moveTask = (oldIndex: number, newIndex: number) => ({
   type: MOVE_TASK,
   payload: { oldIndex, newIndex },
+});
+
+export const togglePinned = (index: number) => ({
+  type: TOGGLE_PINNED,
+  payload: { index },
+});
+
+export const getTasks = (tasks: Task[]) => ({
+  type: GET_TASKS,
+  payload: tasks,
 });

@@ -1,6 +1,6 @@
 import { createStore } from "redux";
-import rootReducer from "../reducers";
-import { getTaskList } from "./TaskStorageController";
+import rootReducer from ".";
+import { getTaskList } from "../utils/TaskStorageController";
 
 const persistedState = getTaskList() || [];
 

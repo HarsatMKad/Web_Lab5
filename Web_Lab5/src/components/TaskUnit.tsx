@@ -2,28 +2,32 @@ import { useState, useRef } from "react";
 import TaskInteractButtons from "./TaskInteractButtons";
 import DelTaskAlert from "./DelTaskAlert";
 import { useDrag, useDrop } from "react-dnd";
-import { ItemTypes } from "../scripts/ItemTypes";
-import { connect, ConnectedProps } from "react-redux";
+import { ItemTypes } from "../utils/ItemTypes";
 import { Task } from "../types/Task";
+import { useDispatch } from "react-redux";
+import { togglePinned } from "../store/tasksActions";
+import { getPinnedTaskCount } from "../utils/TaskStorageController";
 
-const connector = connect();
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-interface Props extends PropsFromRedux {
+type Props = {
   index: number;
   moveCard: (dragIndex: number, hoverIndex: number) => void;
   showAlert: (alert: JSX.Element) => void;
   task: Task;
-}
+};
 
-function TaskUnit(props: Props) {
-  const [buttonsVisible, setButtonsVisible] = useState(false);
+export default function TaskUnit(props: Props) {
+  const dispatch = useDispatch();
+  const [buttonsVisible, setButtonsVisible] = useState<Boolean>(false);
+  const [pinned, setPinned] = useState<Boolean>(props.task.pinned);
   const ref = useRef<HTMLDivElement>(null);
+
+  const lastPinnedIndex = getPinnedTaskCount() - 1;
 
   const [{ isDragging }, drag] = useDrag(
     () => ({
-      type: ItemTypes.TASK,
+      type: pinned ? ItemTypes.PINNED_TASK : ItemTypes.TASK,
       item: { index: props.index },
+      canDrag: pinned ? false : true,
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
@@ -42,6 +46,10 @@ function TaskUnit(props: Props) {
         const hoverIndex = props.index;
 
         if (dragIndex === hoverIndex) {
+          return;
+        }
+
+        if (hoverIndex <= lastPinnedIndex) {
           return;
         }
 
@@ -74,9 +82,29 @@ function TaskUnit(props: Props) {
     );
   };
 
+  function switchPinned() {
+    if (lastPinnedIndex >= 2 && !pinned) {
+      alert("Maximum pinned tasks!");
+    } else {
+      dispatch(togglePinned(props.index));
+      setPinned(!pinned);
+    }
+  }
+
   return (
     <div ref={ref}>
-      <div className="task">
+      <div
+        className="task"
+        style={
+          pinned
+            ? {
+                borderColor: "#ff7033",
+                borderRadius: "32px",
+                borderWidth: "8px",
+              }
+            : {}
+        }
+      >
         <div
           className="task_text_area"
           onClick={() => setButtonsVisible(!buttonsVisible)}
@@ -84,6 +112,11 @@ function TaskUnit(props: Props) {
           <div className="head_text_stile">{props.task.title}</div>
           <p className="sub_text_stile">{props.task.bodyTask}</p>
         </div>
+
+        <button className="del_button" onClick={switchPinned}>
+          pin
+        </button>
+
         <button id="delButton" className="del_button" onClick={openDelMenu}>
           X
         </button>
@@ -94,5 +127,3 @@ function TaskUnit(props: Props) {
     </div>
   );
 }
-
-export default connect(null)(TaskUnit);
