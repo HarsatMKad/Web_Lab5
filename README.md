@@ -10,7 +10,7 @@
 
 Для запуска проекта вам потребуется:
 - Node.js версии 14.x или выше.
-- npm или yarn.
+- yarn.
 
 ### Шаги
 
@@ -18,6 +18,10 @@
    ```bash
    git clone https://github.com/HarsatMKad/Web_Lab2
 
-2. Запустите проект
+2. Установите зависимости
     ```bash
-    npm run dev
+    yarn
+
+3. Запустите проект
+    ```bash
+    yarn run dev
